@@ -1,164 +1,164 @@
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
-,
+Student_Id,roll,name,Dep,time,day,
+4,1,bit ,Computer,12:42:12,05/04/2023,Preset
+4,1,bit ,Computer,12:42:12,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:13,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:14,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:15,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:16,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:17,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:18,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:19,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:20,05/04/2023,Preset
+4,1,bit ,Computer,12:42:21,05/04/2023,Preset
+4,1,bit ,Computer,12:42:21,05/04/2023,Preset
 
-5,1,Quan,IT,14:39:12,01-04-2023,Preset
-5,1,Quan,IT,14:39:13,01-04-2023,Preset
-5,1,Quan,IT,14:39:13,01-04-2023,Preset
-5,1,Quan,IT,14:39:13,01-04-2023,Preset
-5,1,Quan,IT,14:39:13,01-04-2023,Preset
-5,1,Quan,IT,14:39:13,01-04-2023,Preset
-5,1,Quan,IT,14:39:13,01-04-2023,Preset
-5,1,Quan,IT,14:39:14,01-04-2023,Preset
-5,1,Quan,IT,14:39:14,01-04-2023,Preset
-5,1,Quan,IT,14:39:14,01-04-2023,Preset
-5,1,Quan,IT,14:39:14,01-04-2023,Preset
-5,1,Quan,IT,14:39:14,01-04-2023,Preset
-5,1,Quan,IT,14:39:14,01-04-2023,Preset
-5,1,Quan,IT,14:39:14,01-04-2023,Preset
-5,1,Quan,IT,14:39:15,01-04-2023,Preset
-5,1,Quan,IT,14:39:15,01-04-2023,Preset
-5,1,Quan,IT,14:39:15,01-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:38:54,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:39:17,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:40:03,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:40:13,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:26,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:57,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:57,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:57,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:58,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:42:59,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:01,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:03,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:03,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:04,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:05,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:06,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:07,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:07,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:07,12-04-2023,Preset
+4,1,Tran Ngoc Hoang,Computer,15:43:07,12-04-2023,Preset
+4,1,Tran Ngoc H
+4,1,Tran Ngoc Hoang,Computer,15:57:54,12-04-2023,Preset

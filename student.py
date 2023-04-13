@@ -254,6 +254,8 @@ class Student:
                                 font=("time new roman", 12, "bold"), bg="blue", fg="white", width=15)
         take_photo_btn.grid(row=1, column=0, padx=5, pady=3)
 
+
+
         update_photo_btn = Button(btn_frame, text="Update photo",
                                   font=("time new roman", 12, "bold"), bg="blue", fg="white", width=15)
         update_photo_btn.grid(row=1, column=1, padx=5, pady=3)
