@@ -12,6 +12,8 @@ import gspread
 import pandas as pd
 from oauth2client.service_account import ServiceAccountCredentials
 import time
+import asyncio
+import threading
 
 
 class Face_Recognition:
@@ -65,14 +67,18 @@ class Face_Recognition:
 
     #         face recogmition
 
+    async def wait_and_run(self, seconds, func):
+        await asyncio.sleep(seconds)
+        func()
+
     def write_sheet(self, i, r, n, d):
         name_list = []
         creds = ServiceAccountCredentials.from_json_keyfile_name("face-api.json")
         file = gspread.authorize(creds)
         workbook = file.open('dataface')
         sheet = workbook.sheet1
-        data = pd.DataFrame(sheet.get_all_records())
-        print(data)
+        # data = pd.DataFrame(sheet.get_all_records())
+        # print(data)
         if ((i not in name_list) and (r not in name_list) and (n not in name_list) and (d not in name_list)):
             now = datetime.now()
             d1 = now.strftime("%d-%m-%Y")
@@ -81,9 +87,11 @@ class Face_Recognition:
             def write_data():
                 data1 = [i, r, n, d, dtString, d1, 'Preset']
                 sheet.insert_row(data1, len(sheet.get_all_values()) + 1)
-                time.sleep(5)
 
             write_data()
+            messagebox.showinfo("Thông báo", "Ghi dữ liệu thành công!")
+            t = threading.Thread(target=self.face_recog)
+            t.start()
 
     def face_recog(self):
         def draw_boundray(img, classifier, scaleFactor, minNeighbors, color, text, clf):
@@ -122,26 +130,29 @@ class Face_Recognition:
                     cv2.putText(img, f"Roll:{r}", (x, y - 55), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
                     cv2.putText(img, f"name:{n}", (x, y - 30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
                     cv2.putText(img, f"Department:{d}", (x, y - 5), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
-                    # self.mark_attendence(i,r,n,d)
-                    self.write_sheet(i, r, n, d)
+
+                    asyncio.ensure_future(self.wait_and_run(1, self.write_sheet(i, r, n, d)))
+
+                    # time.sleep(5)
+                    # self.write_sheet(i, r, n, d)
                 else:
                     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 3)
                     cv2.putText(img, "Unknown Face", (x, y - 5), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
 
-                coord=[x, y, w, h]
+                coord = [x, y, w, h]
 
             return coord
 
-        def recognize(img, clf, faceCascade): #vẽ đường viền xung quanh khuôn mặt nhận diện
+        def recognize(img, clf, faceCascade):  # vẽ đường viền xung quanh khuôn mặt nhận diện
             coord = draw_boundray(img, faceCascade, 1.1, 10, (255, 25, 255), "Face", clf)
             return img
 
-        faceCascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+        faceCascade = cv2.CascadeClassifier(
+            "haarcascade_frontalface_default.xml")  # chuyên dùng để sử lý pát hiện khuôn mặt
         clf = cv2.face.LBPHFaceRecognizer_create()
         clf.read("classifier.xml")
 
         video_cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-
 
         while True:
             ret, img = video_cap.read()
@@ -152,6 +163,7 @@ class Face_Recognition:
                 break
         video_cap.release()
         cv2.destroyAllWindows()
+
 
 
 if __name__ == "__main__":
