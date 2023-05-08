@@ -33,7 +33,7 @@ class Attendance:
 
 
         # first ìmg
-        img = Image.open(r"C:\Users\Lenovo\Dropbox\PC\Desktop\New folder\test.jpg")
+        img = Image.open(r"college_images/face.png")
         img = img.resize((800, 200), Image.LANCZOS)
         self.photoimg = ImageTk.PhotoImage(img)
 
@@ -41,7 +41,7 @@ class Attendance:
         f_lbl.place(x=0, y=0, width=800, height=200)
 
         # second img
-        img1 = Image.open(r"C:\Users\Lenovo\Dropbox\PC\Desktop\New folder\test2.jpg")
+        img1 = Image.open(r"college_images/facerecognition.jpg")
         img1 = img1.resize((800, 200), Image.LANCZOS)
         self.photoimg1 = ImageTk.PhotoImage(img1)
 
@@ -49,13 +49,13 @@ class Attendance:
         f_lbl.place(x=800, y=0, width=800, height=200)
 
         #         bg img
-        img3 = Image.open(r"C:\Users\Lenovo\Dropbox\PC\Desktop\New folder\test1.jpg")
+        img3 = Image.open(r"college_images/facerecognition.jpg")
         img3 = img3.resize((1530, 1000), Image.LANCZOS)
         self.photoimg3 = ImageTk.PhotoImage(img3)
 
         bg_img = Label(self.root, image=self.photoimg3)
         bg_img.place(x=0, y=200, width=1530, height=700)
-        title_lbl = Label(bg_img, text="STUDENTS ATTENDANCE SYSTEM", font=("time new roman", 25, "bold"),
+        title_lbl = Label(bg_img, text="STAFF ATTENDANCE SYSTEM", font=("time new roman", 25, "bold"),
                           bg="white", fg="red")
         title_lbl.place(x=0, y=0, width=1530, height=30)
 
@@ -67,8 +67,8 @@ class Attendance:
                                 font=("time new roman", 12, "bold"))
         Left_frame.place(x=5, y=10, width=750, height=600)
 
-        img_left = Image.open(r"C:\Users\Lenovo\Dropbox\PC\Desktop\New folder\test1.jpg")
-        img_left = img_left.resize((730, 200), Image.LANCZOS)
+        img_left = Image.open(r"college_images/logo-bg.png")
+        img_left = img_left.resize((730, 170), Image.LANCZOS)
         self.photoimg_left = ImageTk.PhotoImage(img_left)
 
         f_lbl = Label(Left_frame, image=self.photoimg_left)
@@ -76,9 +76,9 @@ class Attendance:
 
         # Class students information
         left_inside_frame = LabelFrame(Left_frame, bd=2, bg="white", relief=RIDGE,
-                                       text=" Class students information",
+                                       text=" Class staff information",
                                        font=("time new roman", 12, "bold"))
-        left_inside_frame.place(x=5, y=200, width=730, height=310)
+        left_inside_frame.place(x=5, y=180, width=730, height=310)
         # AttendanceId
         attendanceID_label = Label(left_inside_frame, text="AttendanceId",
                                    font=("time new roman", 12, "bold"), bg="white")

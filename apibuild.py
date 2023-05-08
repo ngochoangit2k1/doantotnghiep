@@ -1,24 +1,23 @@
-import  gspread
-import pandas as pd
-from oauth2client.service_account import ServiceAccountCredentials
-import  pandas
+from  dotenv import load_dotenv, find_dotenv
+import os
+import pprint
+from pymongo import MongoClient
+load_dotenv(find_dotenv())
+connection_string = f"mongodb+srv://shopforme34:shopforme34@cluster0.f3g5jcd.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(connection_string)
 
-scopes = [
-    'https://www.googleapis.com/auth/spreadsheets',
-    'https://www.googleapis.com/auth/drive'
-]
+dbs = client.list_database_names()
+test_db = client.test
+collections = test_db.list_collection_names()
+print(collections)
 
+def insert_test_doc():
+    collections = test_db.test
+    test_document = {
+        "name" : "A",
+        "type" : "test"
+    }
+    inserted_id = collections.insert_one(test_document).inserted_id
+    print(inserted_id)
 
-
-creds = ServiceAccountCredentials.from_json_keyfile_name("face-api.json")
-file = gspread.authorize(creds)
-
-workbook= file.open('dataface')
-sheet = workbook.sheet1
-
-# data1 = [ 4 ,    1   , 'bit' , 'Computer'  , '12:42:12'  ,'05/04/2023' , 'Preset']
-# sheet.insert_row(data1, len(sheet.get_all_values())+1)
-
-workbook.url
-data = pd.DataFrame(sheet.get_all_records())
-print(data)
+insert_test_doc()

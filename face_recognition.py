@@ -9,7 +9,7 @@ import mysql.connector
 import cv2
 import numpy as np
 import gspread
-import pandas as pd
+
 from oauth2client.service_account import ServiceAccountCredentials
 import time
 import asyncio
@@ -28,20 +28,14 @@ class Face_Recognition:
                           bg="white", fg="red")
         title_lbl.place(x=0, y=0, width=1530, height=30)
 
-        # firt img
-        img_top = Image.open(r"C:\Users\Lenovo\Dropbox\PC\Desktop\New folder\test1.jpg")
-        img_top = img_top.resize((650, 700), Image.LANCZOS)
-        self.photoimg_top = ImageTk.PhotoImage(img_top)
 
-        f_lbl = Label(self.root, image=self.photoimg_top)
-        f_lbl.place(x=0, y=55, width=650, height=700)
-        # bottom img
-        img_bottom = Image.open(r"C:\Users\Lenovo\Dropbox\PC\Desktop\New folder\test1.jpg")
-        img_bottom = img_bottom.resize((950, 700), Image.LANCZOS)
+        # bg img
+        img_bottom = Image.open(r"college_images/face-recognition.png")
+        img_bottom = img_bottom.resize((1530, 700), Image.LANCZOS)
         self.photoimg_bottom = ImageTk.PhotoImage(img_bottom)
 
         f_lbl = Label(self.root, image=self.photoimg_bottom)
-        f_lbl.place(x=650, y=55, width=950, height=700)
+        f_lbl.place(x=0, y=55, width=1530, height=700)
 
         # btn
         b1_1 = Button(f_lbl, text="Face Recognition ", command=self.face_recog
