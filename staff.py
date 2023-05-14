@@ -1,14 +1,27 @@
+import pprint
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import mysql.connector
 # from tkcalendar import DateEntry
+from datetime import datetime
+import bcrypt
 import  cv2
+from  dotenv import load_dotenv, find_dotenv
+from  bson.objectid import ObjectId
+import os
+import pprint
+from pymongo import MongoClient
+load_dotenv(find_dotenv())
+connection_string = f"mongodb+srv://shopforme34:shopforme34@cluster0.f3g5jcd.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(connection_string)
 
 class Staff:
 
     def __init__(self, root):
+        test = client.test
+
         self.root = root
         # vị trí nhận diện trên màng hình
         self.root.geometry("1530x900+0+0")
@@ -20,6 +33,7 @@ class Staff:
         self.var_year = StringVar()
         self.var_semester = StringVar()
         self.var_std_id = StringVar()
+        self.var_std_zid = StringVar()
         self.var_std_name = StringVar()
         self.var_div = StringVar()
         self.var_roll = StringVar()
@@ -81,7 +95,7 @@ class Staff:
 
         # current course
 
-        Current_course_frame = LabelFrame(Left_frame, bd=2, bg="white", relief=RIDGE, text="Current course information",
+        Current_course_frame = LabelFrame(Left_frame, bd=2, bg="white", relief=RIDGE, text="Current Department Information",
                                           font=("time new roman", 12, "bold"))
         Current_course_frame.place(x=5, y=130, width=730, height=130)
 
@@ -115,19 +129,11 @@ class Staff:
         year_combo.current(0)
         year_combo.grid(row=1, column=1, padx=2, pady=10, sticky=W)
 
-        # Quarter
-        quarter_label = Label(Current_course_frame, text="Quarter",
-                               font=("time new roman", 12, "bold"))
-        quarter_label.grid(row=1, column=2, padx=10, sticky=W)
-        semester_combo = ttk.Combobox(Current_course_frame, textvariable=self.var_semester,
-                                      font=("time new roman", 12, "bold"), width=17)
-        semester_combo["values"] = ("I", "II", "III", "IV")
-        semester_combo.current(0)
-        semester_combo.grid(row=1, column=3, padx=2, pady=10, sticky=W)
+
 
         # Class students information
         Class_student_frame = LabelFrame(Left_frame, bd=2, bg="white", relief=RIDGE,
-                                         text=" Class students information",
+                                         text="  Staff information",
                                          font=("time new roman", 12, "bold"))
         Class_student_frame.place(x=5, y=260, width=730, height=310)
 
@@ -135,9 +141,17 @@ class Staff:
         studentsID_label = Label(Class_student_frame, text="ID",
                                  font=("time new roman", 12, "bold"), bg="white")
         studentsID_label.grid(row=0, column=0, padx=10, pady=5, sticky=W)
-        studentsID_entry = ttk.Entry(Class_student_frame, textvariable=self.var_std_id, width=20,
+        studentsID_entry = ttk.Entry(Class_student_frame, textvariable=self.var_std_id,state="readonly", width=20,
                                      font=("time new roman", 12, "bold"))
         studentsID_entry.grid(row=0, column=1, padx=10, pady=5, sticky=W)
+
+        # ID
+        studentsID_label = Label(Class_student_frame, text="ZID",
+                                 font=("time new roman", 12, "bold"), bg="white")
+        studentsID_label.grid(row=4, column=2, padx=10, pady=5, sticky=W)
+        studentsID_entry = ttk.Entry(Class_student_frame, textvariable=self.var_std_zid, state="readonly", width=20,
+                                     font=("time new roman", 12, "bold"))
+        studentsID_entry.grid(row=4, column=3, padx=10, pady=5, sticky=W)
 
         # Student name
         studentsName_label = Label(Class_student_frame, text=" name",
@@ -167,7 +181,7 @@ class Staff:
         rollNo_entry = ttk.Combobox(Class_student_frame, textvariable=self.var_roll, width=20,
                              font=("time new roman", 12, "bold"))
         rollNo_entry["values"] = ("0", "1")
-        rollNo_entry.current(0)
+        rollNo_entry.current(1)
         rollNo_entry.grid(row=1, column=3, padx=10, pady=5, sticky=W)
 
         # Gender
@@ -300,26 +314,25 @@ class Staff:
 
         self.student_table = ttk.Treeview(table_frame,
                                           columns=(
-                                               "dep", "course", "year", "sem","id", "name", "div", "roll", "gender",
-                                              "dod", "email", "phone", "address",  "photo"),
+                                              "id", "name", "dep", "course", "year", "div", "roll", "gender","birthday",
+                                              "email", "phone", "address","zid",  "photo"),
                                           xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
         scroll_x.pack(side=BOTTOM, fill=X)
         scroll_y.pack(side=RIGHT, fill=Y)
         scroll_x.config(command=self.student_table.xview)
         scroll_y.config(command=self.student_table.yview)
         self.student_table.heading("id", text="Id")
+        self.student_table.heading("zid", text="zId")
+        self.student_table.heading("name", text="Name")
         self.student_table.heading("dep", text="Department")
         self.student_table.heading("course", text="Course")
         self.student_table.heading("year", text="Year")
-        self.student_table.heading("sem", text="Quarter")
-
-        self.student_table.heading("name", text="Name")
         self.student_table.heading("div", text="personal ID")
 
         self.student_table.heading("roll", text="Roll")
         self.student_table.heading("gender", text="Gender")
 
-        self.student_table.heading("dod", text="DOB")
+        self.student_table.heading("birthday", text="birthday")
         self.student_table.heading("email", text="Email")
         self.student_table.heading("phone", text="Phone")
         self.student_table.heading("address", text="Address")
@@ -328,18 +341,19 @@ class Staff:
         self.student_table["show"] = "headings"
 
         self.student_table.column("id", width=50)
+        self.student_table.column("zid", width=50)
+        self.student_table.column("name", width=100)
         self.student_table.column("dep", width=100)
         self.student_table.column("course", width=100)
         self.student_table.column("year", width=100)
-        self.student_table.column("sem", width=100)
-        self.student_table.column("name", width=100)
+
         self.student_table.column("div", width=100)
         self.student_table.column("roll", width=100)
-        self.student_table.column("dod", width=100)
+        self.student_table.column("gender", width=100)
+        self.student_table.column("birthday", width=100)
         self.student_table.column("email", width=100)
         self.student_table.column("phone", width=100)
         self.student_table.column("address", width=100)
-
 
         self.student_table.column("photo", width=100)
 
@@ -348,55 +362,93 @@ class Staff:
         self.fetch_data()
 
     #    function decration
+    # def get_next_sequence_value(self,sequence_name):
+    #     test = client.test
+    #     users = test.user
+    #     last_id = users.find_one({"_id": sequence_name})
+    #     if last_id is None:
+    #         users.insert_one({"_id": sequence_name, "id": 0})
+    #         return 1
+    #     else:
+    #         users.find_one_and_update(
+    #             {"_id": sequence_name},
+    #             {"$inc": {"id": 1}}
+    #         )
+    #         return str(last_id["id"] + 1)
     def add_data(self):
-        if self.var_dep.get() == "Select Department" or self.var_std_name.get() == "" or self.var_std_id.get() == "":
+        if self.var_dep.get() == "Select Department" or self.var_std_name.get() == "":
             messagebox.showerror("Error", "All Fields are required", parent=self.root)
         else:
-            try:
-                conn = mysql.connector.connect(host="localhost", username="root", password="abc.123",
-                                               database="face_recognizer")
-                my_cursor = conn.cursor()
-                my_cursor.execute("insert into student values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)", (
-                    self.var_dep.get(),
-                    self.var_course.get(),
-                    self.var_year.get(),
-                    self.var_semester.get(),
-                    self.var_std_id.get(),
-                    self.var_std_name.get(),
-                    self.var_div.get(),
-                    self.var_roll.get(),
-                    self.var_gender.get(),
-                    self.var_dod.get(),
-                    self.var_email.get(),
-                    self.var_phone.get(),
-                    self.var_address.get(),
-                    self.var_teacher.get(),
-                    self.var_radio1.get()
-                ))
 
-                conn.commit()
+            docs = []
+            test= client.test
+            users = test.users
+            last_doc = users.find_one(sort=[("zid", -1)])
+            last_id = last_doc["zid"] if last_doc else 0
+            salt = bcrypt.gensalt()
+            password = b"password"
+            hashed_password = bcrypt.hashpw(password, salt)
+            now = datetime.now()
+            dtString = now.strftime("%d-%m-%Y:%H:%M:%S")
+            try:
+                doc={
+            "zid": int(int(last_id)+1),
+            "deparment":self.var_dep.get(),
+            "Duty":self.var_course.get(),
+            "year":self.var_year.get(),
+
+            "fullname":self.var_std_name.get(),
+            "username": str(int(last_id)+1)+self.var_std_name.get(),
+            "password":hashed_password,
+            "personal_ID":self.var_div.get(),
+            "role":self.var_roll.get(),
+            "gender":self.var_gender.get(),
+            "birthday":self.var_dod.get(),
+            "email":self.var_email.get(),
+            "phone":self.var_phone.get(),
+            "address":self.var_address.get(),
+            "photo":self.var_radio1.get(),
+            "createdAt": dtString,
+            "updatedAt":""
+                }
+                docs.append(doc)
+                users.insert_many(docs)
                 self.fetch_data()
-                conn.close()
+
                 messagebox.showinfo("Success", "Staff details has been added Successfully", parent=self.root)
             except Exception as es:
                 messagebox.showerror("Error", f"Due To :{str(es)}", parent=self.root)
 
     # fetch data
 
+    printer = pprint.PrettyPrinter()
     def fetch_data(self):
-        conn = mysql.connector.connect(host="localhost", username="root", password="abc.123",
-                                       database="face_recognizer")
+        printer = pprint.PrettyPrinter()
+        test = client.test
+        users = test.users
+        people = users.find()
 
-        my_cursor = conn.cursor()
-        my_cursor.execute("select * from student")
-        data = my_cursor.fetchall()
+        for data in people:
+            printer.pprint(data)
+            if len(data) != 0:
+                self.student_table.delete(*self.student_table.get_children())
+                for i in people:
+                    item = self.student_table.insert("", END, values=i["_id"])
+                    self.student_table.set(item, "id", i["_id"])
 
-        if len(data) != 0:
-            self.student_table.delete(*self.student_table.get_children())
-            for i in data:
-                self.student_table.insert("", END, values=i)
-            conn.commit()
-        conn.close()
+                    self.student_table.set(item, "dep", i["deparment"])
+                    self.student_table.set(item, "course", i["Duty"])
+                    self.student_table.set(item, "year", i["year"])
+                    self.student_table.set(item, "name", i["fullname"])
+                    self.student_table.set(item, "div", i["personal_ID"])
+                    self.student_table.set(item, "roll", i["role"])
+                    self.student_table.set(item, "gender", i["gender"])
+                    self.student_table.set(item, "birthday", i["birthday"])
+                    self.student_table.set(item, "email", i["email"])
+                    self.student_table.set(item, "phone", i["phone"])
+                    self.student_table.set(item, "address", i["address"])
+
+                    self.student_table.set(item, "zid", i["zid"])
 
     # get cursor
     def get_cursor(self, event=""):
@@ -404,21 +456,21 @@ class Staff:
         content = self.student_table.item(cursor_focus)
         data = content["values"]
 
-        self.var_dep.set(data[0])
-        self.var_course.set(data[1])
-        self.var_year.set(data[2])
-        self.var_semester.set(data[3])
-        self.var_std_id.set(data[4])
-        self.var_std_name.set(data[5])
-        self.var_div.set(data[6])
-        self.var_roll.set(data[7])
-        self.var_gender.set(data[8])
-        self.var_dod.set(data[9])
-        self.var_email.set(data[10])
-        self.var_phone.set(data[11])
-        self.var_address.set(data[12])
-        self.var_teacher.set(data[13])
-        self.var_radio1.set(data[14])
+        self.var_std_id.set(data[0])
+        self.var_std_name.set(data[1])
+        self.var_dep.set(data[2])
+        self.var_course.set(data[3])
+        self.var_year.set(data[4])
+        self.var_div.set(data[5])
+        self.var_roll.set(data[6])
+        self.var_gender.set(data[7])
+        self.var_dod.set(data[8])
+        self.var_email.set(data[9])
+        self.var_phone.set(data[10])
+        self.var_address.set(data[11])
+        self.var_std_zid.set(data[12])
+        self.var_radio1.set(data[13])
+
 
     # update data
 
@@ -427,37 +479,42 @@ class Staff:
             messagebox.showerror("Error", "All Fields are required", parent=self.root)
         else:
             try:
+                docs = []
+                test = client.test
+                users = test.users
+                _id=ObjectId(self.var_std_id.get())
+                now = datetime.now()
+                dtString = now.strftime("%d-%m-%Y:%H:%M:%S")
                 Update = messagebox.askyesno("Update", "Do you want to update this students details", parent=self.root)
                 if Update > 0:
-                    conn = mysql.connector.connect(host="localhost", username="root", password="abc.123",
-                                                   database="face_recognizer")
-                    my_cursor = conn.cursor()
-                    my_cursor.execute(
-                        "UPDATE student set Dep=%s, course=%s, year=%s, semester=%s,  name=%s, division=%s, roll=%s, gender=%s, dod=%s, email=%s, phone=%s ,address=%s, teacher=%s, photoSample=%s where Student_Id=%s",
-                        (
-                            self.var_dep.get(),
-                            self.var_course.get(),
-                            self.var_year.get(),
-                            self.var_semester.get(),
-                            self.var_std_name.get(),
-                            self.var_div.get(),
-                            self.var_roll.get(),
-                            self.var_gender.get(),
-                            self.var_dod.get(),
-                            self.var_email.get(),
-                            self.var_phone.get(),
-                            self.var_address.get(),
-                            self.var_teacher.get(),
-                            self.var_radio1.get(),
-                            self.var_std_id.get()
-                        ))
+
+                        doc = {"$set":{ "deparment": self.var_dep.get(),
+                            "Duty": self.var_course.get(),
+                            "year": self.var_year.get(),
+
+                            "fullname": self.var_std_name.get(),
+
+                            "personal_ID": self.var_div.get(),
+                            "role": self.var_roll.get(),
+                            "gender": self.var_gender.get(),
+                            "birthday": self.var_dod.get(),
+                            "email": self.var_email.get(),
+                            "phone": self.var_phone.get(),
+                            "address": self.var_address.get(),
+                            "photo": self.var_radio1.get(),
+
+                            "updatedAt": dtString}
+
+                        }
+
                 else:
                     if not Update:
                         return
                 messagebox.showinfo("Success", "Staff details successfylly update complete ", parent=self.root)
-                conn.commit()
+                # docs.append(doc)
+                users.update_one({"_id": _id},doc)
+
                 self.fetch_data()
-                conn.close()
 
             except Exception as es:
                 messagebox.showerror("Error", f"Due To:{str(es)}", parent=self.root)
@@ -471,20 +528,18 @@ class Staff:
             try:
                 delete = messagebox.askyesno("Staff Delete Page", "Do you want to delete this student",
                                              parent=self.root)
+                test = client.test
+                users = test.users
                 if delete > 0:
-                    conn = mysql.connector.connect(host="localhost", username="root", password="abc.123",
-                                                   database="face_recognizer")
-                    my_cursor = conn.cursor()
-                    sql = "DELETE from student where Student_id=%s"
-                    val = (self.var_std_id.get(),)
-                    my_cursor.execute(sql, val)
+                    _id = self.var_std_id.get()
+
                 else:
                     if not delete:
                         return
 
-                conn.commit()
+                users.delete_one({"_id": _id})
                 self.fetch_data()
-                conn.close()
+
                 messagebox.showinfo("Delete", "Successfully delete student detals", parent=self.root)
 
             except Exception as es:
@@ -492,61 +547,57 @@ class Staff:
 
     #   reset data
     def reset_data(self):
-        self.var_dep.set("SELECT Department")
-        self.var_course.set("SELECT course")
-        self.var_year.set("SELECT year")
-        self.var_semester.set("SELECT semester")
+        self.var_dep.set(" ")
+        self.var_course.set(" ")
+        self.var_year.set(" ")
+        self.var_semester.set(" ")
         self.var_std_id.set("")
         self.var_std_name.set("")
-        self.var_div.set("SELECT division ")
+        self.var_div.set("  ")
         self.var_roll.set("")
         self.var_gender.set("Male")
         self.var_dod.set("")
         self.var_email.set("")
         self.var_phone.set("")
         self.var_address.set("")
-        self.var_teacher.set("")
+
         self.var_radio1.set("")
 
     #  Gennere data set or Take     photo sample
 
     def generate_dataset(self):
-        if self.var_dep.get() == "Select Department" or self.var_std_name.get() == "" or self.var_std_id.get() == "":
+        if self.var_dep.get() == "" or self.var_std_name.get() == "":
             messagebox.showerror("Error", "All Fields are required", parent=self.root)
         else:
+            test = client.test
+            users = test.users
+            _id = self.var_std_id.get()
             try:
-                conn = mysql.connector.connect(host="localhost", username="root", password="abc.123",
-                                               database="face_recognizer")
-                my_cursor = conn.cursor()
-                my_cursor.execute("SELECT * from student")
-                myresult = my_cursor.fetchall()
-                id = 0
-                for x in myresult:
-                    id += 1
-                my_cursor.execute(
-                    "UPDATE student set Dep=%s, course=%s, year=%s, semester=%s,  name=%s, division=%s, roll=%s, gender=%s, dod=%s, email=%s, phone=%s ,address=%s, teacher=%s, photoSample=%s where Student_Id=%s",
-                    (
-                        self.var_dep.get(),
-                        self.var_course.get(),
-                        self.var_year.get(),
-                        self.var_semester.get(),
-                        self.var_std_name.get(),
-                        self.var_div.get(),
-                        self.var_roll.get(),
-                        self.var_gender.get(),
-                        self.var_dod.get(),
-                        self.var_email.get(),
-                        self.var_phone.get(),
-                        self.var_address.get(),
-                        self.var_teacher.get(),
-                        self.var_radio1.get(),
-                        self.var_std_id.get() == id + 1
-                    ))
 
-                conn.commit()
+                my_cursor = users.find()
+
+
+                for x in my_cursor:
+                    query = {"_id":  self.var_std_id.get()}
+                    newvalues = {"$set": {
+                    "Dep": self.var_dep.get(),
+                    "course": self.var_course.get(),
+                    "year": self.var_year.get(),
+                    "semester": self.var_semester.get(),
+                    "name": self.var_std_name.get(),
+                    "division": self.var_div.get(),
+                    "roll": self.var_roll.get(),
+                    "gender": self.var_gender.get(),
+                    "dod": self.var_dod.get(),
+                    "email": self.var_email.get(),
+                    "phone": self.var_phone.get(),
+                    "address": self.var_address.get(),
+                    "photoSample": "yes"
+                }}
+                users.update_one(query, newvalues)
                 self.fetch_data()
                 self.reset_data()
-                conn.close()
+
 
                 #             load predifiend data on face frontals from opencv
                 face_classifier = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
@@ -568,7 +619,7 @@ class Staff:
                         img_id += 1
                         face = cv2.resize(face_cropped(my_frame), (450, 450))
                         face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-                        file_name_path = "data/user." + str(id) + "." + str(img_id) + ".jpg"
+                        file_name_path = "data/user." + str(_id) + "." + str(img_id) + ".jpg"
                         cv2.imwrite(file_name_path, face)
                         cv2.putText(face, str(img_id), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 2, (0, 255, 0), 2)
                         cv2.imshow("Crooped Face", face)

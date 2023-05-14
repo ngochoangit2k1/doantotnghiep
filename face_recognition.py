@@ -15,6 +15,15 @@ import time
 import asyncio
 import threading
 
+from  dotenv import load_dotenv, find_dotenv
+import os
+import pprint
+from pymongo import MongoClient
+load_dotenv(find_dotenv())
+connection_string = f"mongodb+srv://shopforme34:shopforme34@cluster0.f3g5jcd.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(connection_string)
+
+dbs = client.list_database_names()
 
 class Face_Recognition:
 
@@ -60,11 +69,6 @@ class Face_Recognition:
     #                 f.writelines(f"\n{i},{r},{n},{d},{dtString},{d1},Preset")
 
     #         face recogmition
-
-    async def wait_and_run(self, seconds, func):
-        await asyncio.sleep(seconds)
-        func()
-
     def write_sheet(self, i, r, n, d):
         name_list = []
         creds = ServiceAccountCredentials.from_json_keyfile_name("face-api.json")
@@ -87,37 +91,49 @@ class Face_Recognition:
             t = threading.Thread(target=self.face_recog)
             t.start()
 
+    def write_data(self, i, r, n, d):
+        name_list = []
+        test = client.test
+        timekeeping = test.timekeepings
+        if ((i not in name_list) and (r not in name_list) and (n not in name_list) and (d not in name_list)):
+            now = datetime.now()
+            d1 = now.strftime("%d-%m-%Y")
+            dtString = now.strftime("%H:%M:%S")
+
+            doc = {"Student_Id":i, "roll": r, "name": n, "Dep": d, "day": d1, "time": dtString}
+            name_list.append(doc)
+        timekeeping.insert_many(name_list)
+
+
     def face_recog(self):
         def draw_boundray(img, classifier, scaleFactor, minNeighbors, color, text, clf):
             gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             features = classifier.detectMultiScale(gray_image, scaleFactor, minNeighbors)
 
             coord = []
-
+            test = client.test
+            timekeeping = test.users
             for (x, y, w, h) in features:
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 3)  # vẽ hình chữ nhật lấy img làm gốc
-                id, predict = clf.predict(gray_image[y:y + h,
+                id , predict = clf.predict(gray_image[y:y + h,
                                           x:x + w])  # dự đoán đối tượng trong hình chữ nhật trên kết qảu dự đoán lưu trên id và phần trăm giống lưu trên predict
                 confidence = int((100 * (1 - predict / 300)))  # kết quả phần trăm dự đoán
 
-                conn = mysql.connector.connect(host="localhost", username="root", password="abc.123",
-                                               database="face_recognizer")
-                my_cursor = conn.cursor()
-                my_cursor.execute("SELECT name from student WHERE Student_Id=" + str(id))
-                n = my_cursor.fetchone()
-                n = "+".join(n)
+                name = timekeeping.find_one({"zid": id})
+                n = name["fullname"]
+                # n = "+".join(n)
 
-                my_cursor.execute("SELECT roll from student WHERE Student_Id=" + str(id))
-                r = my_cursor.fetchone()
-                r = "+".join(r)
+                roll = timekeeping.find_one({"zid": id})
+                r = roll["role"]
+                # r = "+".join(r)
 
-                my_cursor.execute("SELECT Dep from student WHERE Student_Id=" + str(id))
-                d = my_cursor.fetchone()
-                d = "+".join(d)
+                dep = timekeeping.find_one({"zid": id})
+                d = dep["deparment"]
+                # d = "+".join(d)
 
-                my_cursor.execute("SELECT Student_Id from student WHERE Student_Id=" + str(id))
-                i = my_cursor.fetchone()
-                i = "+".join(i)
+                id = timekeeping.find_one({"zid": id})
+                i = id["zid"]
+                # i = "+".join(i)
 
                 if confidence > 77:  # kết quả dự đoán lớn hơn 77%
                     cv2.putText(img, f"ID:{i}", (x, y - 75), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
@@ -125,10 +141,11 @@ class Face_Recognition:
                     cv2.putText(img, f"name:{n}", (x, y - 30), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
                     cv2.putText(img, f"Department:{d}", (x, y - 5), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
 
-                    asyncio.ensure_future(self.wait_and_run(1, self.write_sheet(i, r, n, d)))
+                    # asyncio.ensure_future(self.wait_and_run(1, self.write_sheet(i, r, n, d)))
 
                     # time.sleep(5)
-                    # self.write_sheet(i, r, n, d)
+
+                    self.write_data(i, r, n, d)
                 else:
                     cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 3)
                     cv2.putText(img, "Unknown Face", (x, y - 5), cv2.FONT_HERSHEY_COMPLEX, 0.8, (255, 255, 255), 3)
