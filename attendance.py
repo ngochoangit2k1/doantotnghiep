@@ -9,10 +9,19 @@ from datetime import datetime
 import mysql.connector
 import cv2
 import numpy as np
+from  bson.objectid import ObjectId
+
 import csv
+from  dotenv import load_dotenv, find_dotenv
 
+import os
+import pprint
+from pymongo import MongoClient
+load_dotenv(find_dotenv())
+connection_string = f"mongodb+srv://shopforme34:shopforme34@cluster0.f3g5jcd.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(connection_string)
 
-mydata=[]
+i=[]
 class Attendance:
 
     def __init__(self, root):
@@ -168,10 +177,11 @@ class Attendance:
 
         scroll_x = ttk.Scrollbar(table_frame, orient=HORIZONTAL)
         scroll_y = ttk.Scrollbar(table_frame, orient=VERTICAL)
+        self.AttendaceReportTable = ttk.Treeview(table_frame,
+                                          columns=(
+                                               "id", "roll", "name", "department", "time", "day"),
+                                          xscrollcommand=scroll_x.set, yscrollcommand=scroll_y.set)
 
-        self.AttendaceReportTable = ttk.Treeview(table_frame, columns=(
-        "id", "roll", "name", "department", "time", "date", "attendance"), xscrollcommand=scroll_x.set,
-                                                 yscrollcommand=scroll_y.set)
 
         scroll_x.pack(side=BOTTOM,fill=X)
         scroll_y.pack(side=RIGHT,fill=Y)
@@ -184,8 +194,8 @@ class Attendance:
         self.AttendaceReportTable.heading("name", text="Name")
         self.AttendaceReportTable.heading("department", text="Department")
         self.AttendaceReportTable.heading("time", text="Time")
-        self.AttendaceReportTable.heading("date", text="Date")
-        self.AttendaceReportTable.heading("attendance", text="Attendance ")
+        self.AttendaceReportTable.heading("day", text="Date")
+
 
         self.AttendaceReportTable["show"]="headings"
         self.AttendaceReportTable.column("id", width=100)
@@ -193,43 +203,60 @@ class Attendance:
         self.AttendaceReportTable.column("name", width=100)
         self.AttendaceReportTable.column("department", width=100)
         self.AttendaceReportTable.column("time", width=100)
-        self.AttendaceReportTable.column("date", width=100)
-        self.AttendaceReportTable.column("attendance", width=100)
+        self.AttendaceReportTable.column("day", width=100)
+
 
 
         self.AttendaceReportTable.pack(fill=BOTH, expand=1)
-        self.AttendaceReportTable.bind("<ButtonRelease>",self.get_cursor)
+        self.fetchData()
+        # self.AttendaceReportTable.bind("<ButtonRelease>", self.get_cursor)
 
 #  fetch data
 
 
-    def fetchData(self,rows):
-        self.AttendaceReportTable.delete(*self.AttendaceReportTable.get_children())
-        for i in rows:
-            self.AttendaceReportTable.insert("",END,values=i)
+    def fetchData(self):
+        printer = pprint.PrettyPrinter()
+        test = client.test
+        timekeepings = test.timekeepings
+        people = timekeepings.find()
+
+
+
+        for (i, r, n, d, x, y) in people:
+                    item = self.AttendaceReportTable.insert("", END, values=q["_id"])
+                    i =self.AttendaceReportTable.set(item, "id", q["Id"])
+
+                    r=self.AttendaceReportTable.set(item, "roll", q["roll"])
+                    n=self.AttendaceReportTable.set(item, "name", q["name"])
+                    d=self.AttendaceReportTable.set(item, "department", q["Dep"])
+                    x=self.AttendaceReportTable.set(item, "day", q["day"])
+                    y=self.AttendaceReportTable.set(item, "time", q["time"])
+                    self.exportCsv(i, r, n, d, x, y)
+
     # importCsv
     def importCsv(self):
-        global mydata
-        mydata.clear()
+        global i
+        i.clear()
         fln=filedialog.askopenfilename(initialdir=os.getcwd(),title="Open Csv",filetypes=(("CSV File","*.csv"),("ALL File","*.*")),parent=self.root)
         with open(fln) as myfile:
             csvread=csv.reader(myfile,delimiter=",")
             for i in csvread:
-                mydata.append(i)
-            self.fetchData(mydata)
+                i.append(i)
+            self.fetchData(i)
 #  Export Csv
 
-    def exportCsv(self):
+    def exportCsv(self, i, r, n, d, x, y):
+        mydata=[]
         try:
-            if len(mydata)<1:
+            if len(i)<1:
                 messagebox.showerror("No Data", "No Data found to export", parent=self.root)
                 return False
             fln = filedialog.asksaveasfilename(initialdir=os.getcwd(), title="Open Csv",
                                              filetypes=(("CSV File", "*.csv"), ("ALL File", "*.*")), parent=self.root)
             with open(fln, mode="w", newline="") as  myfile:
                 exp_write=csv.writer(myfile,delimiter=",")
-                for i in mydata:
-                    exp_write.writerow(i)
+                for (i, r, n, d, x, y) in mydata:
+                    exp_write.writerow(i, r, n, d, x, y)
 
                 messagebox.showinfo("Data Export", "Your data exported to"+os.path.basename(fln)+"successfully")
 
@@ -237,16 +264,15 @@ class Attendance:
             messagebox.showerror("Error",f"Due To :{str(es)}",parent=self.root)
 
     def get_cursor(self, event=""):
-        cursor_row=self.AttendaceReportTable.focus()
-        content=self.AttendaceReportTable.item(cursor_row)
-        rows = content["values"]
-        self.var_atten_id.set(rows[0])
-        self.var_atten_roll.set(rows[1])
-        self.var_atten_name.set(rows[2])
-        self.var_atten_dep.set(rows[3])
-        self.var_atten_time.set(rows[4])
-        self.var_atten_date.set(rows[5])
-        self.var_atten_attendance.set(rows[6])
+        cursor_focus = self.AttendaceReportTable.focus()
+        content = self.AttendaceReportTable.item(cursor_focus)
+        data = content["values"]
+        self.var_atten_id.set(data[0])
+        self.var_atten_roll.set(data[1])
+        self.var_atten_name.set(data[2])
+        self.var_atten_dep.set(data[3])
+        self.var_atten_time.set(data[4])
+        self.var_atten_date.set(data[5])
 
 
 

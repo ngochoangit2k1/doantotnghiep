@@ -100,9 +100,10 @@ class Face_Recognition:
             d1 = now.strftime("%d-%m-%Y")
             dtString = now.strftime("%H:%M:%S")
 
-            doc = {"Student_Id":i, "roll": r, "name": n, "Dep": d, "day": d1, "time": dtString}
+            doc = {"Id":i, "roll": r, "name": n, "Dep": d, "day": d1, "time": dtString}
             name_list.append(doc)
         timekeeping.insert_many(name_list)
+
 
 
     def face_recog(self):

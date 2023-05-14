@@ -526,12 +526,12 @@ class Staff:
             messagebox.showerror("error", "Staff id must be required ", parent=self.root)
         else:
             try:
-                delete = messagebox.askyesno("Staff Delete Page", "Do you want to delete this student",
+                delete = messagebox.askyesno("Staff Delete Page", "Do you want to delete this staff",
                                              parent=self.root)
                 test = client.test
                 users = test.users
                 if delete > 0:
-                    _id = self.var_std_id.get()
+                    _id = ObjectId(self.var_std_id.get())
 
                 else:
                     if not delete:
@@ -547,14 +547,14 @@ class Staff:
 
     #   reset data
     def reset_data(self):
-        self.var_dep.set(" ")
-        self.var_course.set(" ")
-        self.var_year.set(" ")
+        self.var_dep.set("Select Department ")
+        self.var_course.set("Select Department ")
+        self.var_year.set("2023")
         self.var_semester.set(" ")
         self.var_std_id.set("")
         self.var_std_name.set("")
-        self.var_div.set("  ")
-        self.var_roll.set("")
+        self.var_div.set(" ")
+        self.var_roll.set("1")
         self.var_gender.set("Male")
         self.var_dod.set("")
         self.var_email.set("")
@@ -571,7 +571,7 @@ class Staff:
         else:
             test = client.test
             users = test.users
-            _id = self.var_std_id.get()
+            zid = self.var_std_zid.get()
             try:
 
                 my_cursor = users.find()
@@ -619,7 +619,7 @@ class Staff:
                         img_id += 1
                         face = cv2.resize(face_cropped(my_frame), (450, 450))
                         face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-                        file_name_path = "data/user." + str(_id) + "." + str(img_id) + ".jpg"
+                        file_name_path = "data/user." + str(zid) + "." + str(img_id) + ".jpg"
                         cv2.imwrite(file_name_path, face)
                         cv2.putText(face, str(img_id), (50, 50), cv2.FONT_HERSHEY_COMPLEX, 2, (0, 255, 0), 2)
                         cv2.imshow("Crooped Face", face)
